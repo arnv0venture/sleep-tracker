@@ -464,7 +464,7 @@ const router = createBrowserRouter(
     },
   ],
   {
-    basename: '/sleep-tracker',
+    basename: '/',
   }
 );
 
