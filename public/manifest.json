@@ -1,7 +1,7 @@
 {
-  "name": "Sleep Tracker",
-  "short_name": "SleepTracker",
-  "description": "Track and analyze your sleep patterns",
+  "name": "Prym - ARNV",
+  "short_name": "Prym",
+  "description": "Track your sleep, log daily activities, analyze your life",
   "start_url": "/sleep-tracker/",
   "scope": "/sleep-tracker/",
   "display": "standalone",

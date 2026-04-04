@@ -32,14 +32,14 @@ export default function Auth({ onAuth }) {
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-[var(--color-accent)] to-indigo-600 mb-4 shadow-lg shadow-[var(--color-accent-glow)]">
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
             </svg>
           </div>
           <h1 className="text-3xl font-bold text-[var(--color-text-primary)] tracking-tight">
-            Sleep Tracker
+            Prym <span className="text-[var(--color-accent-light)]">- ARNV</span>
           </h1>
           <p className="text-[var(--color-text-secondary)] mt-2 text-sm">
-            Track your rest, improve your life
+            Track your day, master your life
           </p>
         </div>
 
