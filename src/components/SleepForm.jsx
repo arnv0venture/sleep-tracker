@@ -1,9 +1,10 @@
 import { useState, useMemo } from 'react';
 import toast from 'react-hot-toast';
+import DateTimePicker from './DateTimePicker';
 
 /**
  * SleepForm — log a new sleep entry
- * Intuitive datetime pickers with real-time duration calculation
+ * 12-hour time pickers with real-time duration calculation
  */
 export default function SleepForm({ onAdd }) {
   const [sleepTime, setSleepTime] = useState('');
@@ -18,7 +19,7 @@ export default function SleepForm({ onAdd }) {
     const end = new Date(wakeTime);
     const diffMs = end - start;
 
-    if (diffMs <= 0) return { valid: false, text: 'Wake time must be after sleep time' };
+    if (isNaN(diffMs) || diffMs <= 0) return { valid: false, text: 'Wake time must be after sleep time' };
 
     const totalMinutes = Math.floor(diffMs / 60000);
     const hours = Math.floor(totalMinutes / 60);
@@ -43,7 +44,6 @@ export default function SleepForm({ onAdd }) {
     const today = new Date(now);
     today.setHours(7, 0, 0, 0);
 
-    // Format for datetime-local input
     const fmt = (d) => {
       const year = d.getFullYear();
       const month = String(d.getMonth() + 1).padStart(2, '0');
@@ -73,7 +73,6 @@ export default function SleepForm({ onAdd }) {
         notes
       );
       toast.success(`Logged ${duration.text} of sleep 🌙`);
-      // Reset form
       setSleepTime('');
       setWakeTime('');
       setNotes('');
@@ -111,33 +110,26 @@ export default function SleepForm({ onAdd }) {
             Quick fill: Last night (11 PM → 7 AM)
           </button>
 
-          {/* Sleep time */}
-          <div>
-            <label
-              htmlFor="sleep-time"
-              className="flex items-center gap-2 text-sm font-medium text-[var(--color-text-secondary)] mb-2"
-            >
+          {/* Sleep time — 12-hour picker */}
+          <DateTimePicker
+            id="sleep-time"
+            value={sleepTime}
+            onChange={setSleepTime}
+            label="Went to sleep"
+            icon={
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent-light)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
               </svg>
-              Went to sleep
-            </label>
-            <input
-              id="sleep-time"
-              type="datetime-local"
-              value={sleepTime}
-              onChange={(e) => setSleepTime(e.target.value)}
-              required
-              className="input-field"
-            />
-          </div>
+            }
+          />
 
-          {/* Wake time */}
-          <div>
-            <label
-              htmlFor="wake-time"
-              className="flex items-center gap-2 text-sm font-medium text-[var(--color-text-secondary)] mb-2"
-            >
+          {/* Wake time — 12-hour picker */}
+          <DateTimePicker
+            id="wake-time"
+            value={wakeTime}
+            onChange={setWakeTime}
+            label="Woke up"
+            icon={
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-warning)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="12" cy="12" r="5" />
                 <line x1="12" y1="1" x2="12" y2="3" />
@@ -149,17 +141,8 @@ export default function SleepForm({ onAdd }) {
                 <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
                 <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
               </svg>
-              Woke up
-            </label>
-            <input
-              id="wake-time"
-              type="datetime-local"
-              value={wakeTime}
-              onChange={(e) => setWakeTime(e.target.value)}
-              required
-              className="input-field"
-            />
-          </div>
+            }
+          />
 
           {/* Duration preview */}
           {duration && (

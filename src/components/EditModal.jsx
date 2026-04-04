@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import toast from 'react-hot-toast';
+import DateTimePicker from './DateTimePicker';
 
 /**
  * EditModal — modal dialog to edit an existing sleep log entry
- * Pre-filled with the existing log data
+ * Pre-filled with the existing log data, uses 12-hour time picker
  */
 export default function EditModal({ log, onSave, onClose }) {
   // Format ISO date to datetime-local value
@@ -68,33 +69,30 @@ export default function EditModal({ log, onSave, onClose }) {
         </div>
 
         <form onSubmit={handleSave} className="space-y-4">
-          <div>
-            <label htmlFor="edit-sleep" className="block text-sm font-medium text-[var(--color-text-secondary)] mb-2">
-              Went to sleep
-            </label>
-            <input
-              id="edit-sleep"
-              type="datetime-local"
-              value={sleepTime}
-              onChange={(e) => setSleepTime(e.target.value)}
-              required
-              className="input-field"
-            />
-          </div>
+          <DateTimePicker
+            id="edit-sleep"
+            value={sleepTime}
+            onChange={setSleepTime}
+            label="Went to sleep"
+            icon={
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent-light)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+              </svg>
+            }
+          />
 
-          <div>
-            <label htmlFor="edit-wake" className="block text-sm font-medium text-[var(--color-text-secondary)] mb-2">
-              Woke up
-            </label>
-            <input
-              id="edit-wake"
-              type="datetime-local"
-              value={wakeTime}
-              onChange={(e) => setWakeTime(e.target.value)}
-              required
-              className="input-field"
-            />
-          </div>
+          <DateTimePicker
+            id="edit-wake"
+            value={wakeTime}
+            onChange={setWakeTime}
+            label="Woke up"
+            icon={
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-warning)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="5" />
+                <line x1="12" y1="1" x2="12" y2="3" />
+              </svg>
+            }
+          />
 
           <div>
             <label htmlFor="edit-notes" className="block text-sm font-medium text-[var(--color-text-secondary)] mb-2">
