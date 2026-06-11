@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { useState, useEffect, useCallback, createContext, useContext, useMemo } from 'react';
 import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
@@ -483,18 +484,19 @@ export default function App() {
               toastOptions={{
                 duration: 3000,
                 style: {
-                  background: '#1a1a2e',
+                  background: 'rgba(15, 17, 28, 0.82)',
                   color: '#f1f5f9',
-                  border: '1px solid rgba(124, 58, 237, 0.2)',
+                  border: '1px solid rgba(255, 255, 255, 0.08)',
                   borderRadius: '0.75rem',
                   fontSize: '0.875rem',
-                  backdropFilter: 'blur(12px)',
+                  backdropFilter: 'blur(16px) saturate(130%)',
+                  boxShadow: '0 14px 40px rgba(0, 0, 0, 0.3)',
                 },
                 success: {
-                  iconTheme: { primary: '#10b981', secondary: '#1a1a2e' },
+                  iconTheme: { primary: '#10b981', secondary: 'rgba(15, 17, 28, 0.82)' },
                 },
                 error: {
-                  iconTheme: { primary: '#ef4444', secondary: '#1a1a2e' },
+                  iconTheme: { primary: '#ef4444', secondary: 'rgba(15, 17, 28, 0.82)' },
                 },
               }}
             />

@@ -43,20 +43,52 @@ html {
 
 body {
   font-family: var(--font-family-sans);
-  background-color: var(--color-bg-primary);
+  background:
+    radial-gradient(circle at top left, rgba(124, 58, 237, 0.16), transparent 34%),
+    radial-gradient(circle at 85% 15%, rgba(99, 102, 241, 0.12), transparent 28%),
+    radial-gradient(circle at 75% 85%, rgba(16, 185, 129, 0.08), transparent 24%),
+    linear-gradient(180deg, #090912 0%, #07070d 100%);
   color: var(--color-text-primary);
   min-height: 100dvh;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
-/* Subtle animated background gradient */
+/* Liquid glass background layers */
 #root {
+  position: relative;
+  isolation: isolate;
   min-height: 100dvh;
-  background:
-    radial-gradient(ellipse at 20% 0%, rgba(124, 58, 237, 0.08) 0%, transparent 50%),
-    radial-gradient(ellipse at 80% 100%, rgba(99, 102, 241, 0.06) 0%, transparent 50%),
-    var(--color-bg-primary);
+  overflow-x: clip;
+}
+
+#root::before,
+#root::after {
+  content: '';
+  position: fixed;
+  inset: auto;
+  width: 34rem;
+  height: 34rem;
+  border-radius: 9999px;
+  filter: blur(48px);
+  opacity: 0.5;
+  pointer-events: none;
+  z-index: -1;
+  animation: floatBlob 18s ease-in-out infinite;
+}
+
+#root::before {
+  top: -10rem;
+  left: -8rem;
+  background: radial-gradient(circle, rgba(124, 58, 237, 0.24) 0%, rgba(124, 58, 237, 0.06) 45%, transparent 72%);
+}
+
+#root::after {
+  right: -10rem;
+  bottom: -12rem;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.2) 0%, rgba(16, 185, 129, 0.08) 42%, transparent 72%);
+  animation-delay: -6s;
 }
 
 /* ============================================================
@@ -64,17 +96,45 @@ body {
    ============================================================ */
 
 .glass-card {
-  background: var(--color-bg-card);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid var(--color-border);
+  position: relative;
+  z-index: 0;
+  overflow: hidden;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.04)),
+    rgba(12, 14, 24, 0.62);
+  backdrop-filter: blur(26px) saturate(140%);
+  -webkit-backdrop-filter: blur(26px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow:
+    0 18px 50px rgba(0, 0, 0, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
   border-radius: 1rem;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+.glass-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.glass-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at top left, rgba(255, 255, 255, 0.16), transparent 30%),
+    linear-gradient(135deg, transparent 35%, rgba(255, 255, 255, 0.08) 50%, transparent 65%);
+  opacity: 0.7;
+  pointer-events: none;
+}
+
 .glass-card:hover {
-  border-color: rgba(124, 58, 237, 0.25);
-  box-shadow: 0 0 30px rgba(124, 58, 237, 0.08);
+  border-color: rgba(167, 139, 250, 0.28);
+  box-shadow:
+    0 22px 70px rgba(0, 0, 0, 0.34),
+    0 0 40px rgba(124, 58, 237, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  transform: translateY(-1px);
 }
 
 /* ============================================================
@@ -84,18 +144,23 @@ body {
 .input-field {
   width: 100%;
   padding: 0.75rem 1rem;
-  background: var(--color-bg-input);
-  border: 1px solid var(--color-border);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.03)),
+    rgba(15, 17, 28, 0.82);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 0.75rem;
   color: var(--color-text-primary);
   font-size: 0.9375rem;
   transition: all 0.2s ease;
   outline: none;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
 .input-field:focus {
   border-color: var(--color-border-focus);
-  box-shadow: 0 0 0 3px var(--color-accent-glow);
+  box-shadow:
+    0 0 0 3px var(--color-accent-glow),
+    0 10px 30px rgba(124, 58, 237, 0.1);
 }
 
 .input-field::placeholder {
@@ -118,21 +183,29 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
   justify-content: center;
   gap: 0.5rem;
   padding: 0.75rem 1.5rem;
-  background: linear-gradient(135deg, var(--color-accent), #6d28d9);
+  background:
+    linear-gradient(135deg, rgba(167, 139, 250, 0.95), rgba(109, 40, 217, 0.95));
   color: white;
   font-weight: 600;
   font-size: 0.9375rem;
   border-radius: 0.75rem;
-  border: none;
+  border: 1px solid rgba(255, 255, 255, 0.14);
   cursor: pointer;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
+  box-shadow:
+    0 12px 30px rgba(109, 40, 217, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(14px);
 }
 
 .btn-primary:hover {
   transform: translateY(-1px);
-  box-shadow: 0 8px 25px rgba(124, 58, 237, 0.35);
+  box-shadow:
+    0 18px 38px rgba(109, 40, 217, 0.34),
+    0 0 30px rgba(124, 58, 237, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22);
 }
 
 .btn-primary:active {
@@ -152,20 +225,21 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
   justify-content: center;
   gap: 0.5rem;
   padding: 0.625rem 1.25rem;
-  background: transparent;
+  background: rgba(255, 255, 255, 0.04);
   color: var(--color-text-secondary);
   font-weight: 500;
   font-size: 0.875rem;
   border-radius: 0.75rem;
-  border: 1px solid var(--color-border);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   cursor: pointer;
   transition: all 0.2s ease;
+  backdrop-filter: blur(14px);
 }
 
 .btn-secondary:hover {
   color: var(--color-text-primary);
   border-color: var(--color-accent-light);
-  background: rgba(124, 58, 237, 0.08);
+  background: rgba(124, 58, 237, 0.12);
 }
 
 .btn-danger {
@@ -174,14 +248,15 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
   justify-content: center;
   gap: 0.5rem;
   padding: 0.5rem 1rem;
-  background: var(--color-danger-soft);
+  background: rgba(239, 68, 68, 0.12);
   color: var(--color-danger);
   font-weight: 500;
   font-size: 0.8125rem;
   border-radius: 0.625rem;
-  border: 1px solid rgba(239, 68, 68, 0.2);
+  border: 1px solid rgba(239, 68, 68, 0.22);
   cursor: pointer;
   transition: all 0.2s ease;
+  backdrop-filter: blur(12px);
 }
 
 .btn-danger:hover {
@@ -196,17 +271,18 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
   width: 2.25rem;
   height: 2.25rem;
   border-radius: 0.625rem;
-  border: 1px solid var(--color-border);
-  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
   color: var(--color-text-secondary);
   cursor: pointer;
   transition: all 0.2s ease;
+  backdrop-filter: blur(14px);
 }
 
 .btn-icon:hover {
   color: var(--color-text-primary);
   border-color: var(--color-accent-light);
-  background: rgba(124, 58, 237, 0.08);
+  background: rgba(124, 58, 237, 0.12);
 }
 
 /* ============================================================
@@ -279,8 +355,8 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(4px);
+  background: rgba(3, 5, 10, 0.58);
+  backdrop-filter: blur(14px) saturate(130%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -306,15 +382,18 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
   transition: all 0.2s ease;
   cursor: pointer;
   text-decoration: none;
+  border: 1px solid transparent;
 }
 
 .nav-item:hover {
   color: var(--color-text-secondary);
+  background: rgba(255, 255, 255, 0.04);
 }
 
 .nav-item.active {
   color: var(--color-accent-light);
-  background: rgba(124, 58, 237, 0.1);
+  background: rgba(124, 58, 237, 0.14);
+  border-color: rgba(167, 139, 250, 0.16);
 }
 
 .nav-item.active svg {
@@ -326,16 +405,22 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
    ============================================================ */
 
 .stat-card {
-  background: var(--color-bg-card);
-  backdrop-filter: blur(20px);
-  border: 1px solid var(--color-border);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.03)),
+    rgba(14, 16, 28, 0.68);
+  backdrop-filter: blur(24px) saturate(135%);
+  -webkit-backdrop-filter: blur(24px) saturate(135%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 1rem;
   padding: 1.25rem;
   transition: all 0.3s ease;
+  box-shadow:
+    0 16px 40px rgba(0, 0, 0, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
 
 .stat-card:hover {
-  border-color: rgba(124, 58, 237, 0.25);
+  border-color: rgba(167, 139, 250, 0.22);
   transform: translateY(-2px);
 }
 
@@ -345,10 +430,11 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
 
 .period-toggle {
   display: flex;
-  background: var(--color-bg-input);
+  background: rgba(255, 255, 255, 0.05);
   border-radius: 0.75rem;
   padding: 0.25rem;
-  border: 1px solid var(--color-border);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(14px);
 }
 
 .period-btn {
@@ -389,6 +475,15 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
 @media (max-width: 640px) {
   .hide-mobile {
     display: none;
+  }
+}
+
+@keyframes floatBlob {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(0, 18px, 0) scale(1.06);
   }
 }
 
@@ -446,10 +541,11 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
 
 .tab-bar {
   display: flex;
-  background: var(--color-bg-input);
+  background: rgba(255, 255, 255, 0.05);
   border-radius: 0.75rem;
   padding: 0.25rem;
-  border: 1px solid var(--color-border);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(14px);
 }
 
 .tab-btn {
@@ -470,12 +566,11 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
 }
 
 .tab-btn.active {
-  background: var(--color-accent);
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.92), rgba(99, 102, 241, 0.92));
   color: white;
-  box-shadow: 0 2px 10px rgba(124, 58, 237, 0.3);
+  box-shadow: 0 4px 18px rgba(124, 58, 237, 0.28);
 }
 
 .tab-btn:not(.active):hover {
   color: var(--color-text-secondary);
 }
-

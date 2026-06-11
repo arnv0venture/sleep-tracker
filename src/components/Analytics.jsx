@@ -5,6 +5,32 @@ import {
   ResponsiveContainer, Cell, PieChart, Pie,
 } from 'recharts';
 
+function ActivityTooltip({ active, payload, label }) {
+  if (!active || !payload?.length) return null;
+  const hours = payload[0].value;
+  const h = Math.floor(hours);
+  const m = Math.round((hours - h) * 60);
+  return (
+    <div className="glass-card p-3 !rounded-lg text-sm">
+      <p className="text-[var(--color-text-secondary)] mb-1">{label}</p>
+      <p className="font-semibold text-[var(--color-text-primary)]">{h}h {m}m</p>
+    </div>
+  );
+}
+
+function PieTooltip({ active, payload }) {
+  if (!active || !payload?.length) return null;
+  const data = payload[0].payload;
+  const h = Math.floor(data.minutes / 60);
+  const m = data.minutes % 60;
+  return (
+    <div className="glass-card p-3 !rounded-lg text-sm">
+      <p className="font-semibold text-[var(--color-text-primary)]">{data.name}</p>
+      <p className="text-[var(--color-text-secondary)]">{h}h {m}m • {data.count} activities</p>
+    </div>
+  );
+}
+
 /**
  * Analytics — unified dashboard combining sleep + activity analytics
  * Two tab views: Sleep and Activities
@@ -12,7 +38,6 @@ import {
 export default function Analytics({
   sleepLogs, sleepLoading, onFetchSleepLogs,
   activities, activityLoading, onFetchActivities,
-  categories,
 }) {
   const [period, setPeriod] = useState(7);
   const [tab, setTab] = useState('sleep');
@@ -131,34 +156,6 @@ export default function Analytics({
 
   const loading = tab === 'sleep' ? sleepLoading : activityLoading;
   const sleepQuality = getSleepQuality(sleepStats.averageMinutes);
-
-  // Custom tooltip for activity chart
-  const ActivityTooltip = ({ active, payload, label }) => {
-    if (!active || !payload?.length) return null;
-    const hours = payload[0].value;
-    const h = Math.floor(hours);
-    const m = Math.round((hours - h) * 60);
-    return (
-      <div className="glass-card p-3 !rounded-lg text-sm">
-        <p className="text-[var(--color-text-secondary)] mb-1">{label}</p>
-        <p className="font-semibold text-[var(--color-text-primary)]">{h}h {m}m</p>
-      </div>
-    );
-  };
-
-  // Custom tooltip for pie chart
-  const PieTooltip = ({ active, payload }) => {
-    if (!active || !payload?.length) return null;
-    const data = payload[0].payload;
-    const h = Math.floor(data.minutes / 60);
-    const m = data.minutes % 60;
-    return (
-      <div className="glass-card p-3 !rounded-lg text-sm">
-        <p className="font-semibold text-[var(--color-text-primary)]">{data.name}</p>
-        <p className="text-[var(--color-text-secondary)]">{h}h {m}m • {data.count} activities</p>
-      </div>
-    );
-  };
 
   return (
     <div className="space-y-6 animate-fade-in-up">

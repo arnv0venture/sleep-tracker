@@ -11,6 +11,22 @@ import {
   Cell,
 } from 'recharts';
 
+function CustomTooltip({ active, payload, label }) {
+  if (!active || !payload?.length) return null;
+  const hours = payload[0].value;
+  const h = Math.floor(hours);
+  const m = Math.round((hours - h) * 60);
+
+  return (
+    <div className="glass-card p-3 !rounded-lg text-sm">
+      <p className="text-[var(--color-text-secondary)] mb-1">{label}</p>
+      <p className="font-semibold text-[var(--color-text-primary)]">
+        {h}h {m}m
+      </p>
+    </div>
+  );
+}
+
 /**
  * SleepChart — bar chart showing daily sleep hours
  * Uses Recharts with gradient fills and an 8-hour reference line
@@ -54,23 +70,6 @@ export default function SleepChart({ logs }) {
       </div>
     );
   }
-
-  // Custom tooltip
-  const CustomTooltip = ({ active, payload, label }) => {
-    if (!active || !payload?.length) return null;
-    const hours = payload[0].value;
-    const h = Math.floor(hours);
-    const m = Math.round((hours - h) * 60);
-
-    return (
-      <div className="glass-card p-3 !rounded-lg text-sm">
-        <p className="text-[var(--color-text-secondary)] mb-1">{label}</p>
-        <p className="font-semibold text-[var(--color-text-primary)]">
-          {h}h {m}m
-        </p>
-      </div>
-    );
-  };
 
   // Color each bar based on sleep quality
   const getBarColor = (hours) => {

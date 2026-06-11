@@ -19,12 +19,12 @@ export default function Layout({ user, onSignOut }) {
   };
 
   return (
-    <div className="min-h-dvh flex flex-col">
+    <div className="relative z-10 min-h-dvh flex flex-col">
       {/* Header */}
-      <header className="sticky top-0 z-40 backdrop-blur-xl bg-[var(--color-bg-primary)]/80 border-b border-[var(--color-border)]">
+      <header className="sticky top-0 z-40 border-b border-white/10 bg-[rgba(7,9,16,0.58)] backdrop-blur-2xl">
         <div className="max-w-2xl mx-auto px-4 py-3 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[var(--color-accent)] to-indigo-600 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[var(--color-accent)] to-indigo-500 flex items-center justify-center shadow-lg shadow-[var(--color-accent-glow)]">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
               </svg>
@@ -65,7 +65,7 @@ export default function Layout({ user, onSignOut }) {
       </main>
 
       {/* Bottom navigation — 5 tabs */}
-      <nav className="fixed bottom-0 left-0 right-0 z-40 backdrop-blur-xl bg-[var(--color-bg-primary)]/90 border-t border-[var(--color-border)] safe-bottom">
+      <nav className="fixed bottom-0 left-0 right-0 z-40 border-t border-white/10 bg-[rgba(7,9,16,0.72)] backdrop-blur-2xl safe-bottom">
         <div className="max-w-2xl mx-auto flex justify-around py-2 px-2">
           <NavLink
             to="/"
